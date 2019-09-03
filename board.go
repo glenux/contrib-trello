@@ -168,6 +168,8 @@ func (b *Board) AddMember(member *Member, extraArgs ...Arguments) (response *Add
 func (c *Client) GetBoard(boardID string, extraArgs ...Arguments) (board *Board, err error) {
 	args := flattenArguments(extraArgs)
 	path := fmt.Sprintf("boards/%s", boardID)
+	// force field retrival to really get all the properties (Starred, etc.)
+	args["fields"] = "all"
 	err = c.Get(path, args, &board)
 	if board != nil {
 		board.client = c
